@@ -155,6 +155,7 @@
       display:flex;
       gap:12px;
       flex-wrap:wrap;
+      align-items:center;
     }
 
     button{
@@ -164,7 +165,6 @@
       font-weight:800;
       cursor:pointer;
       font-size:15px;
-      transition:transform .12s ease;
     }
 
     .yes{
@@ -173,13 +173,12 @@
       box-shadow:0 18px 40px rgba(255,79,163,.26);
     }
 
-    .yes:hover{transform:translateY(-1px)}
-
     .maybe{
       background:white;
       border:1px solid #ffd1e8;
       box-shadow:0 16px 35px rgba(255,79,163,.12);
       position:relative;
+      transition:left .12s ease, top .12s ease;
     }
 
     .footer{
@@ -202,6 +201,7 @@
       opacity:0;
       pointer-events:none;
       transition:opacity .2s ease, transform .2s ease;
+      z-index:10000;
     }
 
     .toast.show{
@@ -224,54 +224,52 @@
       <p>
         AHHHH help me! From fuckass Duck LMAOOO
         <br><br>
-        But seriously… I made you a pink website because I <strong>love</strong> you.
+        But fr, I made a dope website because I <strong>love</strong> you.
       </p>
 
       <div class="pillrow">
         <div class="pill">made with love</div>
         <div class="pill">very pink</div>
-        <div class="pill">slightly unhinged</div>
-        <div class="pill">100% Daisy-coded</div>
+        <div class="pill">super cute</div>
+        <div class="pill">super duper lovey</div>
       </div>
     </section>
 
     <section class="grid">
       <div class="card">
-        <h3>💗 I love how you take care of me</h3>
-        <p>It makes me feel safe, seen, and genuinely cared for.</p>
+        <h3>I love how you take care of me</h3>
+        <p>It makes me feel heard, seen, and loved.</p>
       </div>
 
       <div class="card">
-        <h3>🌸 I love how much you make me smile</h3>
-        <p>You bring happiness into my life so effortlessly.</p>
+        <h3>I love how much you make me smile</h3>
+        <p>You make me cackle like ur so fucking funny.</p>
       </div>
 
       <div class="card">
-        <h3>✨ I love being with you</h3>
-        <p>Everything feels better when it’s us.</p>
+        <h3>I love being with you</h3>
+        <p>Likeee our us time is so perfect, I just wanna be with you all the time.</p>
       </div>
 
       <div class="card">
-        <h3>🫶 I love you</h3>
-        <p>
-          And honestly… when you call me Daddy, it makes me really happy.
-        </p>
+        <h3>I love you</h3>
+        <p>And when you call me daddy hehe I get so happy.</p>
       </div>
     </section>
 
     <section class="ask">
-      <h2>Daisy… will you be my girlfriend?</h2>
+      <h2>Baby.. will you be my girlfriend?</h2>
       <p>
-        I already love you.  
-        I just want to make it official with you.
+        I love you.
+        I just wanna make it official with you.
       </p>
 
       <div class="btnrow">
         <button class="yes" id="yesBtn">Yes 💖</button>
-        <button class="maybe" id="maybeBtn">Let me think 🤭</button>
+        <button class="maybe" id="noBtn">No 🙈</button>
       </div>
 
-      <div class="footer">ps: click the 🌸</div>
+      <div class="footer">ps.. click the yes button</div>
     </section>
 
   </div>
@@ -287,30 +285,39 @@
       setTimeout(() => toast.classList.remove("show"), 2400);
     }
 
-    const maybeBtn = document.getElementById("maybeBtn");
-    maybeBtn.addEventListener("mouseover", () => {
-      const dx = (Math.random() * 160) - 80;
-      const dy = (Math.random() * 60) - 30;
-      maybeBtn.style.transform = `translate(${dx}px, ${dy}px)`;
-    });
+    const noBtn = document.getElementById("noBtn");
 
-    maybeBtn.addEventListener("mouseout", () => {
-      maybeBtn.style.transform = "translate(0,0)";
-    });
+    function moveNo(){
+      const padding = 20;
+      const w = noBtn.offsetWidth || 120;
+      const h = noBtn.offsetHeight || 48;
 
-    maybeBtn.addEventListener("click", () => {
-      showToast("Take your time 🤍");
+      const x = Math.random() * (window.innerWidth - w - padding);
+      const y = Math.random() * (window.innerHeight - h - padding);
+
+      noBtn.style.position = "fixed";
+      noBtn.style.left = `${x}px`;
+      noBtn.style.top = `${y}px`;
+      noBtn.style.zIndex = 9999;
+    }
+
+    noBtn.addEventListener("mouseenter", moveNo);
+    noBtn.addEventListener("mouseover", moveNo);
+    noBtn.addEventListener("mousemove", moveNo);
+    noBtn.addEventListener("click", () => {
+      showToast("nice try 😭");
+      moveNo();
     });
 
     document.getElementById("yesBtn").addEventListener("click", () => {
       showToast("YAY I’m so happy");
       setTimeout(() => {
-        alert("Daisy \nYou just made my whole day.\n\nI can’t wait for what we’re building together.");
+        alert("Daisy\nYou just made my whole day.\n\nI can’t wait for what we’re building together.");
       }, 500);
     });
 
     document.getElementById("heartBtn").addEventListener("click", () => {
-      showToast("Secret message: I love you more than this site can show ");
+      showToast("Secret message: I love you more than this site can show 💗");
     });
   </script>
 
