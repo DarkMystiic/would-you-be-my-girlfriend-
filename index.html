@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>For My Baby <333333</title>
 
-  <!-- Cute display font for headings -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
@@ -17,7 +16,6 @@
       --pink3:#ff4fa3;
       --pink4:#ff9ccc;
       --ink:#2b2b2b;
-      --card:#ffffffcc;
       --line:#ffd1e8;
       --shadow: 0 18px 55px rgba(255,79,163,.18);
       --shadow2: 0 12px 30px rgba(255,79,163,.14);
@@ -38,7 +36,7 @@
       overflow-x:hidden;
     }
 
-    /* Confetti canvas */
+    /* confetti canvas */
     canvas#confetti{
       position:fixed;
       inset:0;
@@ -46,7 +44,7 @@
       z-index:99999;
     }
 
-    /* Sparkles layer */
+    /* Sparkles */
     .sparkles{
       position:fixed;
       inset:0;
@@ -69,14 +67,14 @@
       50%{ opacity:.7; filter: blur(.35px); }
     }
 
-    /* Floating bubbles/hearts */
+    /* floating background bubbles/hearts */
     .bg-bubbles{
       position:fixed;
       inset:0;
       pointer-events:none;
       overflow:hidden;
       z-index:0;
-      opacity:.7;
+      opacity:.75;
     }
     .bubble{
       position:absolute;
@@ -150,7 +148,6 @@
       box-shadow: 0 18px 55px rgba(255,79,163,.22);
     }
 
-    /* Glass cards */
     .hero{
       border-radius:32px;
       padding:32px 24px;
@@ -177,7 +174,7 @@
       -webkit-backdrop-filter: blur(12px);
     }
 
-    /* Shimmer gloss */
+    /* shimmer gloss */
     .hero::after, .ask::after{
       content:"";
       position:absolute;
@@ -376,7 +373,7 @@
       position:relative;
     }
 
-    /* Yes button subtle breathing pulse */
+    /* Yes subtle pulse */
     #yesBtn{
       animation: yesPulse 1.9s ease-in-out infinite;
     }
@@ -426,7 +423,7 @@
     }
     .meterFill{
       height:100%;
-      width:22%;
+      width:42%;
       border-radius:999px;
       background:linear-gradient(90deg, #ff7bb8, #ff4fa3);
       transition: width .25s ease;
@@ -460,13 +457,6 @@
     .toast.show{
       opacity:1;
       transform:translateX(-50%) translateY(-6px);
-    }
-
-    /* Tiny tilt effect for cards (desktop only) */
-    @media (hover:hover){
-      .card{
-        transform: translateZ(0);
-      }
     }
   </style>
 </head>
@@ -555,9 +545,7 @@
   <script>
     // Background bubbles + hearts
     const bubbles = document.getElementById("bubbles");
-
     function spawnBubblesAndHearts(){
-      // bubbles
       const bubbleCount = 16;
       for (let i = 0; i < bubbleCount; i++) {
         const b = document.createElement("div");
@@ -572,7 +560,6 @@
         bubbles.appendChild(b);
       }
 
-      // subtle hearts
       const hearts = ["💗","💖","🌸","✨"];
       const heartCount = 14;
       for (let i = 0; i < heartCount; i++){
@@ -600,15 +587,13 @@
     // Love meter
     const meter = document.getElementById("meter");
     const yesBtn = document.getElementById("yesBtn");
+    meter.style.width = "42%";
     yesBtn.addEventListener("mouseenter", () => meter.style.width = "100%");
     yesBtn.addEventListener("mouseleave", () => meter.style.width = "42%");
-    // start at a cute baseline
-    meter.style.width = "42%";
 
-    // NO button: stays in its area, never disappears, and moves smoothly (small steps)
+    // NO button: stays in its area and moves smoothly
     const noBtn = document.getElementById("noBtn");
     const noArea = document.getElementById("noArea");
-
     let targetX = 0, targetY = 0;
 
     function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
@@ -620,7 +605,6 @@
       const w = noBtn.offsetWidth || 120;
       const h = noBtn.offsetHeight || 48;
 
-      // maximum inside bounds
       const maxX = Math.max(padding, areaW - w - padding);
       const maxY = Math.max(padding, areaH - h - padding);
 
@@ -633,7 +617,6 @@
       noBtn.style.transform = `translate(${targetX}px, ${targetY}px)`;
     }
 
-    // Ensure the No button is always in view even if fonts load late / resize happens
     function snapNoInside(){
       const padding = 8;
       const areaW = noArea.clientWidth;
@@ -650,15 +633,12 @@
     }
 
     window.addEventListener("load", () => {
-      // start in a nice top-right-ish spot inside the area
       targetX = 12;
       targetY = 10;
       snapNoInside();
     });
-
     window.addEventListener("resize", snapNoInside);
 
-    // Dodge interactions
     noBtn.addEventListener("mouseenter", () => setNoTarget(60));
     noBtn.addEventListener("mousemove", () => setNoTarget(48));
     noBtn.addEventListener("click", () => {
@@ -666,28 +646,9 @@
       setNoTarget(70);
     });
 
-    // Card tilt (subtle, desktop only)
-    const cards = document.querySelectorAll(".card");
-    if (window.matchMedia("(hover:hover)").matches){
-      cards.forEach(card => {
-        card.addEventListener("mousemove", (e) => {
-          const r = card.getBoundingClientRect();
-          const px = (e.clientX - r.left) / r.width;
-          const py = (e.clientY - r.top) / r.height;
-          const tiltX = (py - 0.5) * -4; // -2..2ish
-          const tiltY = (px - 0.5) * 4;
-          card.style.transform = `translateY(-2px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
-        });
-        card.addEventListener("mouseleave", () => {
-          card.style.transform = "translateY(0px)";
-        });
-      });
-    }
-
-    // Confetti (canvas) — burst AROUND the Yes button and also a little from it
+    // Confetti (canvas) - burst AROUND the Yes button (ring)
     const canvas = document.getElementById("confetti");
     const ctx = canvas.getContext("2d");
-
     function resizeCanvas(){
       canvas.width = Math.floor(window.innerWidth * devicePixelRatio);
       canvas.height = Math.floor(window.innerHeight * devicePixelRatio);
@@ -699,55 +660,41 @@
     let confetti = [];
     let animating = false;
 
-    function spawnPiece(x, y, vx, vy, size, rot, vr, life, shape){
-      confetti.push({ x, y, vx, vy, size, rot, vr, life, shape });
-    }
-
     function popConfettiAroundYes(){
       confetti = [];
-      const yesRect = yesBtn.getBoundingClientRect();
-      const cx = yesRect.left + yesRect.width / 2;
-      const cy = yesRect.top + yesRect.height / 2;
 
-      const ringR = Math.max(28, Math.min(56, Math.max(yesRect.width, yesRect.height) * 0.75));
-      const count = 290;
+      const r = yesBtn.getBoundingClientRect();
+      const cx = r.left + r.width / 2;
+      const cy = r.top + r.height / 2;
 
-      for(let i=0;i<count;i++){
-        const ang = Math.random() * Math.PI * 2;
-        const r = ringR + Math.random() * 12;
+      const ringRadius = Math.max(28, Math.min(60, Math.max(r.width, r.height) * 0.8));
+      const count = 260;
 
-        const x = cx + Math.cos(ang) * r;
-        const y = cy + Math.sin(ang) * r;
+      for (let i = 0; i < count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const radius = ringRadius + Math.random() * 10;
 
-        // outward velocity
-        const speed = 3.2 + Math.random() * 6.3;
-        const vx = Math.cos(ang) * speed + (Math.random()*1.1 - 0.55);
-        const vy = Math.sin(ang) * speed - (2.2 + Math.random()*2.8);
+        const x = cx + Math.cos(angle) * radius;
+        const y = cy + Math.sin(angle) * radius;
 
-        const size = (Math.random()*6 + 2);
-        const rot = Math.random() * Math.PI * 2;
-        const vr = (Math.random()*0.28 - 0.14);
-        const life = 230 + Math.random()*100;
+        const speed = 3 + Math.random() * 6;
+        const vx = Math.cos(angle) * speed + (Math.random()*1.0 - 0.5);
+        const vy = Math.sin(angle) * speed - (2 + Math.random() * 2);
 
-        // mix squares + tiny hearts
-        const shape = (Math.random() < 0.18) ? "heart" : "square";
-        spawnPiece(x, y, vx, vy, size, rot, vr, life, shape);
+        confetti.push({
+          x, y,
+          vx, vy,
+          size: Math.random() * 6 + 2,
+          rot: Math.random() * Math.PI * 2,
+          vr: Math.random() * 0.25 - 0.125,
+          life: 220 + Math.random() * 90
+        });
       }
 
-      if(!animating){
+      if (!animating) {
         animating = true;
         requestAnimationFrame(tickConfetti);
       }
-    }
-
-    function drawHeart(x, y, s){
-      // simple heart using bezier-ish path
-      ctx.beginPath();
-      ctx.moveTo(x, y);
-      ctx.bezierCurveTo(x - s, y - s, x - 2*s, y + s/3, x, y + 2*s);
-      ctx.bezierCurveTo(x + 2*s, y + s/3, x + s, y - s, x, y);
-      ctx.closePath();
-      ctx.fill();
     }
 
     function tickConfetti(){
@@ -757,21 +704,16 @@
       confetti.forEach(p=>{
         p.x += p.vx;
         p.y += p.vy;
-        p.vy += 0.18; // gravity
+        p.vy += 0.18;
         p.rot += p.vr;
         p.life -= 1;
 
         ctx.save();
         ctx.translate(p.x, p.y);
         ctx.rotate(p.rot);
-        ctx.globalAlpha = Math.max(p.life/320, 0);
+        ctx.globalAlpha = Math.max(p.life/300, 0);
         ctx.fillStyle = palette[(Math.random()*palette.length) | 0];
-
-        if (p.shape === "heart"){
-          drawHeart(0, 0, Math.max(2.5, p.size*0.85));
-        } else {
-          ctx.fillRect(-p.size, -p.size, p.size*2, p.size*2);
-        }
+        ctx.fillRect(-p.size, -p.size, p.size*2, p.size*2);
         ctx.restore();
       });
 
@@ -784,7 +726,7 @@
       }
     }
 
-    // Actions
+    // Yes action
     yesBtn.addEventListener("click", () => {
       popConfettiAroundYes();
       showToast("YAY I’m so happy");
