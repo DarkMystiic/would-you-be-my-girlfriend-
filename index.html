@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daisy 💗</title>
+
+  <style>
+    :root{
+      --pink1:#ffd1e8;
+      --pink2:#ff7bb8;
+      --pink3:#ff4fa3;
+      --ink:#2b2b2b;
+      --card:#ffffffcc;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color:var(--ink);
+      background:
+        radial-gradient(1200px 600px at 20% 10%, var(--pink1), transparent 60%),
+        radial-gradient(900px 500px at 80% 20%, #ffe7f3, transparent 55%),
+        linear-gradient(180deg, #fff, #fff5fb);
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+
+    .wrap{
+      max-width:960px;
+      margin:0 auto;
+      padding:28px 18px 80px;
+    }
+
+    header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:18px;
+    }
+
+    .badge{
+      padding:10px 14px;
+      border-radius:999px;
+      background:#fff;
+      border:1px solid #ffd1e8;
+      box-shadow:0 10px 30px rgba(255,79,163,.12);
+      font-weight:600;
+    }
+
+    .heart{
+      width:44px;
+      height:44px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      background:#fff;
+      border:1px solid #ffd1e8;
+      box-shadow:0 10px 30px rgba(255,79,163,.12);
+      cursor:pointer;
+      user-select:none;
+    }
+
+    .hero{
+      border-radius:28px;
+      padding:30px 22px;
+      background:linear-gradient(135deg, #ffffffcc, #fff0f8cc);
+      border:1px solid #ffd1e8;
+      box-shadow:0 20px 60px rgba(255,79,163,.14);
+      margin-bottom:18px;
+    }
+
+    .hero h1{
+      margin:0 0 10px;
+      font-size:clamp(34px, 5vw, 54px);
+      letter-spacing:-0.02em;
+    }
+
+    .hero p{
+      margin:0;
+      font-size:clamp(16px, 2.2vw, 20px);
+      max-width:60ch;
+      line-height:1.45;
+    }
+
+    .pillrow{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:16px;
+    }
+
+    .pill{
+      padding:10px 12px;
+      border-radius:999px;
+      background:#fff;
+      border:1px solid #ffd1e8;
+      box-shadow:0 10px 25px rgba(255,79,163,.10);
+      font-weight:600;
+      font-size:14px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(12,1fr);
+      gap:14px;
+      margin-top:18px;
+    }
+
+    .card{
+      grid-column:span 6;
+      background:var(--card);
+      border:1px solid #ffd1e8;
+      border-radius:22px;
+      padding:16px;
+      box-shadow:0 16px 40px rgba(255,79,163,.10);
+    }
+
+    .card h3{
+      margin:0 0 6px;
+      font-size:16px;
+    }
+
+    .card p{
+      margin:0;
+      line-height:1.4;
+    }
+
+    @media (max-width:720px){
+      .card{grid-column:span 12;}
+    }
+
+    .ask{
+      margin-top:18px;
+      padding:22px;
+      border-radius:26px;
+      background:linear-gradient(135deg, #fff, #fff0f8);
+      border:1px solid #ffd1e8;
+      box-shadow:0 20px 60px rgba(255,79,163,.14);
+    }
+
+    .ask h2{
+      margin:0 0 6px;
+      font-size:clamp(22px, 3.3vw, 30px);
+    }
+
+    .ask p{
+      margin:0 0 14px;
+      line-height:1.45;
+    }
+
+    .btnrow{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    button{
+      border:none;
+      padding:12px 16px;
+      border-radius:16px;
+      font-weight:800;
+      cursor:pointer;
+      font-size:15px;
+      transition:transform .12s ease;
+    }
+
+    .yes{
+      background:linear-gradient(180deg, var(--pink2), var(--pink3));
+      color:white;
+      box-shadow:0 18px 40px rgba(255,79,163,.26);
+    }
+
+    .yes:hover{transform:translateY(-1px)}
+
+    .maybe{
+      background:white;
+      border:1px solid #ffd1e8;
+      box-shadow:0 16px 35px rgba(255,79,163,.12);
+      position:relative;
+    }
+
+    .footer{
+      margin-top:18px;
+      text-align:center;
+      font-size:13px;
+      opacity:.75;
+    }
+
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:24px;
+      transform:translateX(-50%);
+      background:#111;
+      color:#fff;
+      padding:12px 14px;
+      border-radius:14px;
+      font-weight:700;
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .2s ease, transform .2s ease;
+    }
+
+    .toast.show{
+      opacity:1;
+      transform:translateX(-50%) translateY(-6px);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <header>
+      <div class="badge">For Daisy 💗</div>
+      <div class="heart" id="heartBtn">🌸</div>
+    </header>
+
+    <section class="hero">
+      <h1>Hi Daisy 🌷</h1>
+      <p>
+        AHHHH help me! From fuckass Duck LMAOOO
+        <br><br>
+        But seriously… I made you a pink website because I <strong>love</strong> you.
+      </p>
+
+      <div class="pillrow">
+        <div class="pill">made with love</div>
+        <div class="pill">very pink</div>
+        <div class="pill">slightly unhinged</div>
+        <div class="pill">100% Daisy-coded</div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <h3>💗 I love how you take care of me</h3>
+        <p>It makes me feel safe, seen, and genuinely cared for.</p>
+      </div>
+
+      <div class="card">
+        <h3>🌸 I love how much you make me smile</h3>
+        <p>You bring happiness into my life so effortlessly.</p>
+      </div>
+
+      <div class="card">
+        <h3>✨ I love being with you</h3>
+        <p>Everything feels better when it’s us.</p>
+      </div>
+
+      <div class="card">
+        <h3>🫶 I love you</h3>
+        <p>
+          And honestly… when you call me Daddy, it makes me really happy.
+        </p>
+      </div>
+    </section>
+
+    <section class="ask">
+      <h2>Daisy… will you be my girlfriend?</h2>
+      <p>
+        I already love you.  
+        I just want to make it official with you.
+      </p>
+
+      <div class="btnrow">
+        <button class="yes" id="yesBtn">Yes 💖</button>
+        <button class="maybe" id="maybeBtn">Let me think 🤭</button>
+      </div>
+
+      <div class="footer">ps: click the 🌸</div>
+    </section>
+
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const toast = document.getElementById("toast");
+
+    function showToast(msg){
+      toast.textContent = msg;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 2400);
+    }
+
+    const maybeBtn = document.getElementById("maybeBtn");
+    maybeBtn.addEventListener("mouseover", () => {
+      const dx = (Math.random() * 160) - 80;
+      const dy = (Math.random() * 60) - 30;
+      maybeBtn.style.transform = `translate(${dx}px, ${dy}px)`;
+    });
+
+    maybeBtn.addEventListener("mouseout", () => {
+      maybeBtn.style.transform = "translate(0,0)";
+    });
+
+    maybeBtn.addEventListener("click", () => {
+      showToast("Take your time 🤍");
+    });
+
+    document.getElementById("yesBtn").addEventListener("click", () => {
+      showToast("YAY I’m so happy");
+      setTimeout(() => {
+        alert("Daisy \nYou just made my whole day.\n\nI can’t wait for what we’re building together.");
+      }, 500);
+    });
+
+    document.getElementById("heartBtn").addEventListener("click", () => {
+      showToast("Secret message: I love you more than this site can show ");
+    });
+  </script>
+
+</body>
+</html>
