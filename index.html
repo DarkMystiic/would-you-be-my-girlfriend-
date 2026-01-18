@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Daisy 💗</title>
+  <title>For My Baby <333333</title>
 
   <style>
     :root{
@@ -335,12 +335,12 @@
   <div class="wrap">
 
     <header>
-      <div class="badge">For Daisy 💗</div>
+      <div class="badge">FOR MY BABY</div>
       <div class="heart" id="heartBtn">🌸</div>
     </header>
 
     <section class="hero">
-      <h1>Hi Daisy 🌷</h1>
+      <h1>HI BABYYYYY</h1>
       <p>
         AHHHH help me! From fuckass Duck LMAOOO
         <br><br>
@@ -386,9 +386,9 @@
         I just wanna make it official with you.
       </p>
 
-      <div class="btnrow">
-        <button class="yes" id="yesBtn">Yes 💖</button>
-        <button class="maybe" id="noBtn">No 🙈</button>
+      <div class="btnrow" id="btnRow">
+        <button class="yes" id="yesBtn">100% Yes</button>
+        <button class="maybe" id="noBtn">Nopeeeee</button>
       </div>
 
       <div class="footer">ps.. click the yes button</div>
@@ -422,24 +422,35 @@
       setTimeout(() => toast.classList.remove("show"), 2400);
     }
 
-    // No button dodges every hover
+    // No button dodges every hover (but stays inside the button row)
     const noBtn = document.getElementById("noBtn");
+    const btnRow = document.getElementById("btnRow");
+
     function moveNo(){
-      const padding = 20;
+      const rect = btnRow.getBoundingClientRect();
+      const padding = 8;
+
       const w = noBtn.offsetWidth || 120;
       const h = noBtn.offsetHeight || 48;
 
-      const maxX = window.innerWidth - w - padding;
-      const maxY = window.innerHeight - h - padding;
+      const minX = rect.left + padding;
+      const maxX = rect.right - w - padding;
+      const minY = rect.top + padding;
+      const maxY = rect.bottom - h - padding;
 
-      const x = Math.max(padding, Math.random() * maxX);
-      const y = Math.max(padding, Math.random() * maxY);
+      // If the container is too small (mobile), don't move it off-screen
+      const safeMaxX = Math.max(minX, maxX);
+      const safeMaxY = Math.max(minY, maxY);
+
+      const x = Math.random() * (safeMaxX - minX) + minX;
+      const y = Math.random() * (safeMaxY - minY) + minY;
 
       noBtn.style.position = "fixed";
       noBtn.style.left = `${x}px`;
       noBtn.style.top = `${y}px`;
       noBtn.style.zIndex = 9999;
     }
+
     noBtn.addEventListener("mouseenter", moveNo);
     noBtn.addEventListener("mouseover", moveNo);
     noBtn.addEventListener("mousemove", moveNo);
@@ -466,8 +477,11 @@
     function popConfetti(){
       confetti = [];
       const count = 260;
-      const originX = window.innerWidth * 0.5;
-      const originY = window.innerHeight * 0.35;
+
+      // Spawn confetti near the Yes button so it feels intentional
+      const yesRect = document.getElementById("yesBtn").getBoundingClientRect();
+      const originX = yesRect.left + yesRect.width * 0.5;
+      const originY = yesRect.top + yesRect.height * 0.3;
 
       for(let i=0;i<count;i++){
         confetti.push({
@@ -520,7 +534,7 @@
       popConfetti();
       showToast("YAY I’m so happy");
       setTimeout(() => {
-        alert("Daisy \nYou just made my whole day.\n\nI can’t wait for what we’re building together.");
+        alert("Daisy \nYou just made me so happy hehe.\nI can’t wait for our love to grow as always.");
       }, 500);
     });
 
