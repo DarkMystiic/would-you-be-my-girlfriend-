@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>For My Baby <333333</title>
 
+  <!-- Cute display font for headings -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+
   <style>
     :root{
       --pink1:#ffd1e8;
@@ -33,7 +38,7 @@
       overflow-x:hidden;
     }
 
-    /* confetti canvas */
+    /* Confetti canvas */
     canvas#confetti{
       position:fixed;
       inset:0;
@@ -41,13 +46,37 @@
       z-index:99999;
     }
 
+    /* Sparkles layer */
+    .sparkles{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:0;
+      opacity:.55;
+      background:
+        radial-gradient(2px 2px at 12% 18%, rgba(255,255,255,.9), transparent 55%),
+        radial-gradient(2px 2px at 24% 42%, rgba(255,255,255,.8), transparent 55%),
+        radial-gradient(2px 2px at 36% 28%, rgba(255,255,255,.75), transparent 55%),
+        radial-gradient(2px 2px at 48% 62%, rgba(255,255,255,.85), transparent 55%),
+        radial-gradient(2px 2px at 58% 22%, rgba(255,255,255,.75), transparent 55%),
+        radial-gradient(2px 2px at 72% 40%, rgba(255,255,255,.8), transparent 55%),
+        radial-gradient(2px 2px at 84% 18%, rgba(255,255,255,.85), transparent 55%),
+        radial-gradient(2px 2px at 88% 66%, rgba(255,255,255,.75), transparent 55%);
+      animation: twinkle 5.5s ease-in-out infinite;
+    }
+    @keyframes twinkle{
+      0%,100%{ opacity:.35; filter: blur(.1px); }
+      50%{ opacity:.7; filter: blur(.35px); }
+    }
+
+    /* Floating bubbles/hearts */
     .bg-bubbles{
       position:fixed;
       inset:0;
       pointer-events:none;
       overflow:hidden;
       z-index:0;
-      opacity:.8;
+      opacity:.7;
     }
     .bubble{
       position:absolute;
@@ -57,10 +86,23 @@
       box-shadow:0 10px 25px rgba(255,79,163,.14);
       animation: floatUp linear infinite;
     }
+    .heartFloat{
+      position:absolute;
+      font-size:16px;
+      opacity:.16;
+      filter: blur(.15px);
+      animation: floatHearts linear infinite;
+      user-select:none;
+    }
     @keyframes floatUp{
       from{ transform:translateY(40vh) translateX(0) scale(.9); opacity:0; }
-      10%{opacity:.9}
+      10%{opacity:.85}
       to{ transform:translateY(-120vh) translateX(60px) scale(1.2); opacity:0; }
+    }
+    @keyframes floatHearts{
+      from{ transform:translateY(50vh) translateX(0) rotate(0deg) scale(.9); opacity:0; }
+      15%{opacity:.18}
+      to{ transform:translateY(-120vh) translateX(-40px) rotate(18deg) scale(1.15); opacity:0; }
     }
 
     .wrap{
@@ -85,7 +127,7 @@
       background:linear-gradient(180deg, #fff, #fff0f8);
       border:1px solid var(--line);
       box-shadow: var(--shadow2);
-      font-weight:800;
+      font-weight:900;
       letter-spacing:.2px;
     }
 
@@ -108,33 +150,75 @@
       box-shadow: 0 18px 55px rgba(255,79,163,.22);
     }
 
+    /* Glass cards */
     .hero{
       border-radius:32px;
       padding:32px 24px;
-      background:linear-gradient(135deg, #ffffffd6, #fff0f8d6);
+      background:linear-gradient(135deg, rgba(255,255,255,.85), rgba(255,240,248,.78));
       border:1px solid var(--line);
       box-shadow: var(--shadow);
       overflow:hidden;
       position:relative;
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      margin-bottom:18px;
     }
 
-    .hero:before{
+    .ask{
+      margin-top:18px;
+      padding:22px;
+      border-radius:28px;
+      background:linear-gradient(135deg, rgba(255,255,255,.9), rgba(255,240,248,.8));
+      border:1px solid var(--line);
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    /* Shimmer gloss */
+    .hero::after, .ask::after{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background: linear-gradient(
+        120deg,
+        transparent 30%,
+        rgba(255,255,255,.65) 42%,
+        rgba(255,255,255,.20) 55%,
+        transparent 70%
+      );
+      transform: translateX(-60%) rotate(10deg);
+      animation: shimmer 7s ease-in-out infinite;
+      pointer-events:none;
+      opacity:.55;
+    }
+    @keyframes shimmer{
+      0%{ transform: translateX(-60%) rotate(10deg); opacity:.18; }
+      45%{ opacity:.55; }
+      100%{ transform: translateX(60%) rotate(10deg); opacity:.18; }
+    }
+
+    .hero:before, .ask:before{
       content:"";
       position:absolute;
       inset:-2px;
       background:
-        radial-gradient(420px 240px at 18% 12%, rgba(255,79,163,.18), transparent 65%),
-        radial-gradient(420px 240px at 80% 20%, rgba(255,123,184,.16), transparent 65%);
+        radial-gradient(420px 240px at 18% 12%, rgba(255,79,163,.16), transparent 65%),
+        radial-gradient(420px 240px at 80% 20%, rgba(255,123,184,.14), transparent 65%);
       pointer-events:none;
+      opacity:.85;
     }
 
     .hero h1{
       position:relative;
       margin:0 0 10px;
-      font-size:clamp(36px, 5.2vw, 60px);
+      font-family: "Fredoka", system-ui, sans-serif;
+      font-size:clamp(40px, 5.4vw, 64px);
       letter-spacing:-0.03em;
       line-height:1.05;
+      text-shadow: 0 10px 30px rgba(255,79,163,.12);
     }
 
     .hero p{
@@ -142,7 +226,9 @@
       margin:0;
       font-size:clamp(16px, 2.2vw, 20px);
       max-width:62ch;
-      line-height:1.5;
+      line-height:1.55;
+      font-weight:600;
+      opacity:.96;
     }
 
     .pillrow{
@@ -159,10 +245,9 @@
       background:linear-gradient(180deg, #fff, #fff7fb);
       border:1px solid var(--line);
       box-shadow:0 12px 28px rgba(255,79,163,.11);
-      font-weight:800;
+      font-weight:900;
       font-size:13px;
       letter-spacing:.2px;
-      transform: translateZ(0);
     }
 
     .grid{
@@ -174,109 +259,103 @@
 
     .card{
       grid-column:span 6;
-      background:linear-gradient(180deg, #ffffffd8, #fff4fad8);
+      background:linear-gradient(180deg, rgba(255,255,255,.86), rgba(255,244,250,.76));
       border:1px solid var(--line);
       border-radius:26px;
       padding:16px 16px 15px;
       box-shadow: var(--shadow2);
-      backdrop-filter: blur(10px);
-      transform: translateZ(0);
-      transition: transform .14s ease, box-shadow .14s ease;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: transform .16s ease, box-shadow .16s ease;
       position:relative;
       overflow:hidden;
+      transform-style: preserve-3d;
     }
     .card:before{
       content:"";
       position:absolute;
       inset:0;
       background:
-        radial-gradient(220px 120px at 10% 15%, rgba(255,79,163,.12), transparent 60%),
+        radial-gradient(220px 120px at 10% 15%, rgba(255,79,163,.10), transparent 60%),
         radial-gradient(240px 140px at 90% 10%, rgba(255,123,184,.10), transparent 60%);
       pointer-events:none;
-      opacity:.8;
+      opacity:.85;
     }
     .card:hover{
       transform: translateY(-2px);
-      box-shadow: 0 20px 55px rgba(255,79,163,.18);
+      box-shadow: 0 20px 60px rgba(255,79,163,.20);
     }
-
     .card h3{
       position:relative;
       margin:0 0 6px;
       font-size:16px;
-      font-weight:900;
+      font-weight:950;
       letter-spacing:.1px;
+      font-family: "Fredoka", system-ui, sans-serif;
     }
-
     .card p{
       position:relative;
       margin:0;
       line-height:1.45;
       opacity:.95;
+      font-weight:600;
     }
 
     @media (max-width:720px){
       .card{grid-column:span 12;}
     }
 
-    .ask{
-      margin-top:18px;
-      padding:22px;
-      border-radius:28px;
-      background:linear-gradient(135deg, #fff, #fff0f8);
-      border:1px solid var(--line);
-      box-shadow: var(--shadow);
-      position:relative;
-      overflow:hidden;
-      backdrop-filter: blur(10px);
-    }
-    .ask:before{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background:
-        radial-gradient(420px 240px at 10% 30%, rgba(255,79,163,.14), transparent 62%),
-        radial-gradient(420px 240px at 90% 15%, rgba(255,123,184,.12), transparent 62%);
-      pointer-events:none;
-    }
-
     .ask h2{
       position:relative;
       margin:0 0 8px;
-      font-size:clamp(22px, 3.3vw, 32px);
+      font-family: "Fredoka", system-ui, sans-serif;
+      font-size:clamp(24px, 3.4vw, 34px);
       letter-spacing:-0.02em;
       font-weight:950;
     }
-
     .ask p{
       position:relative;
       margin:0 0 14px;
-      line-height:1.5;
-      font-weight:600;
+      line-height:1.55;
+      font-weight:700;
       opacity:.95;
     }
 
-    /* YES + a dedicated play area for NO (so it can never cover YES or disappear) */
     .btnrow{
       position:relative;
       display:flex;
       gap:14px;
       flex-wrap:wrap;
       align-items:flex-start;
+      margin-top:6px;
     }
 
+    /* Dedicated area for NO so it never covers YES or disappears */
     .noArea{
       position:relative;
       width:220px;
-      height:70px;       /* room to move without leaving */
+      height:74px;
       flex:0 0 auto;
+      border-radius:22px;
+      border:1px dashed rgba(255,79,163,.25);
+      background: rgba(255,255,255,.35);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: inset 0 0 0 1px rgba(255,209,232,.35);
+      overflow:hidden;
+    }
+    .noArea:after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(120px 60px at 20% 30%, rgba(255,79,163,.08), transparent 70%),
+        radial-gradient(120px 60px at 85% 70%, rgba(255,123,184,.08), transparent 70%);
+      pointer-events:none;
     }
 
     @media (max-width:520px){
-      .noArea{
-        width:100%;
-        height:86px;
-      }
+      .noArea{ width:100%; height:88px; }
     }
 
     button{
@@ -294,25 +373,64 @@
       background:linear-gradient(180deg, var(--pink2), var(--pink3));
       color:white;
       box-shadow:0 18px 40px rgba(255,79,163,.28);
+      position:relative;
     }
+
+    /* Yes button subtle breathing pulse */
+    #yesBtn{
+      animation: yesPulse 1.9s ease-in-out infinite;
+    }
+    @keyframes yesPulse{
+      0%,100%{ transform: translateY(0) scale(1); }
+      50%{ transform: translateY(-1px) scale(1.02); }
+    }
+
     .yes:hover{
-      transform: translateY(-1px) scale(1.01);
-      filter: brightness(1.02);
+      transform: translateY(-1px) scale(1.02);
+      filter: brightness(1.03);
       box-shadow:0 22px 55px rgba(255,79,163,.34);
     }
     .yes:active{transform: translateY(0px) scale(.99);}
 
-    /* NO button: same size as before, moves inside the play area, smooth */
+    /* NO button same size; smooth move */
     #noBtn{
       position:absolute;
-      left:0;
-      top:0;
+      left:8px;
+      top:8px;
       background:linear-gradient(180deg, #fff, #fff7fb);
       border:1px solid var(--line);
       box-shadow:0 16px 35px rgba(255,79,163,.14);
       white-space:nowrap;
       transform: translate3d(0,0,0);
-      transition: transform 160ms ease;
+      transition: transform 180ms cubic-bezier(.2,.9,.2,1);
+    }
+
+    /* Love meter */
+    .meterWrap{
+      margin-top:14px;
+      max-width:460px;
+    }
+    .meterLabel{
+      font-weight:950;
+      opacity:.84;
+      margin-bottom:8px;
+      letter-spacing:.2px;
+    }
+    .meterShell{
+      height:14px;
+      border-radius:999px;
+      background:#ffe7f3;
+      border:1px solid var(--line);
+      overflow:hidden;
+      box-shadow: inset 0 2px 10px rgba(255,79,163,.10);
+    }
+    .meterFill{
+      height:100%;
+      width:22%;
+      border-radius:999px;
+      background:linear-gradient(90deg, #ff7bb8, #ff4fa3);
+      transition: width .25s ease;
+      box-shadow: 0 10px 20px rgba(255,79,163,.18);
     }
 
     .footer{
@@ -321,7 +439,7 @@
       text-align:center;
       font-size:13px;
       opacity:.78;
-      font-weight:800;
+      font-weight:900;
     }
 
     .toast{
@@ -333,22 +451,29 @@
       color:#fff;
       padding:12px 14px;
       border-radius:14px;
-      font-weight:900;
+      font-weight:950;
       opacity:0;
       pointer-events:none;
       transition:opacity .2s ease, transform .2s ease;
       z-index:100000;
     }
-
     .toast.show{
       opacity:1;
       transform:translateX(-50%) translateY(-6px);
+    }
+
+    /* Tiny tilt effect for cards (desktop only) */
+    @media (hover:hover){
+      .card{
+        transform: translateZ(0);
+      }
     }
   </style>
 </head>
 
 <body>
   <canvas id="confetti"></canvas>
+  <div class="sparkles"></div>
   <div class="bg-bubbles" id="bubbles"></div>
 
   <div class="wrap">
@@ -374,7 +499,7 @@
       </div>
     </section>
 
-    <section class="grid">
+    <section class="grid" id="cardsGrid">
       <div class="card">
         <h3>I love how you take care of me</h3>
         <p>It makes me feel heard, seen, and loved.</p>
@@ -405,12 +530,18 @@
         I just wanna make it official with you.
       </p>
 
-      <div class="btnrow" id="btnRow">
+      <div class="btnrow">
         <button class="yes" id="yesBtn">100% Yes</button>
 
-        <!-- Dedicated area so "Nopeeeee" never covers Yes or disappears -->
-        <div class="noArea" id="noArea">
+        <div class="noArea" id="noArea" aria-label="No button play area">
           <button class="maybe" id="noBtn">Nopeeeee</button>
+        </div>
+      </div>
+
+      <div class="meterWrap" id="meterWrap">
+        <div class="meterLabel">love meter</div>
+        <div class="meterShell">
+          <div class="meterFill" id="meter"></div>
         </div>
       </div>
 
@@ -422,22 +553,43 @@
   <div class="toast" id="toast"></div>
 
   <script>
-    // floating background bubbles/hearts
+    // Background bubbles + hearts
     const bubbles = document.getElementById("bubbles");
-    const bubbleCount = 18;
-    for (let i = 0; i < bubbleCount; i++) {
-      const b = document.createElement("div");
-      b.className = "bubble";
-      const size = 10 + Math.random() * 16;
-      b.style.width = size + "px";
-      b.style.height = size + "px";
-      b.style.left = (Math.random() * 100) + "%";
-      b.style.top = (60 + Math.random() * 40) + "vh";
-      b.style.animationDuration = (7 + Math.random() * 8) + "s";
-      b.style.animationDelay = (Math.random() * 6) + "s";
-      bubbles.appendChild(b);
-    }
 
+    function spawnBubblesAndHearts(){
+      // bubbles
+      const bubbleCount = 16;
+      for (let i = 0; i < bubbleCount; i++) {
+        const b = document.createElement("div");
+        b.className = "bubble";
+        const size = 10 + Math.random() * 16;
+        b.style.width = size + "px";
+        b.style.height = size + "px";
+        b.style.left = (Math.random() * 100) + "%";
+        b.style.top = (60 + Math.random() * 40) + "vh";
+        b.style.animationDuration = (7 + Math.random() * 8) + "s";
+        b.style.animationDelay = (Math.random() * 6) + "s";
+        bubbles.appendChild(b);
+      }
+
+      // subtle hearts
+      const hearts = ["💗","💖","🌸","✨"];
+      const heartCount = 14;
+      for (let i = 0; i < heartCount; i++){
+        const h = document.createElement("div");
+        h.className = "heartFloat";
+        h.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+        h.style.left = (Math.random() * 100) + "%";
+        h.style.top = (65 + Math.random() * 35) + "vh";
+        h.style.fontSize = (14 + Math.random() * 10) + "px";
+        h.style.animationDuration = (10 + Math.random() * 10) + "s";
+        h.style.animationDelay = (Math.random() * 8) + "s";
+        bubbles.appendChild(h);
+      }
+    }
+    spawnBubblesAndHearts();
+
+    // Toast
     const toast = document.getElementById("toast");
     function showToast(msg){
       toast.textContent = msg;
@@ -445,15 +597,45 @@
       setTimeout(() => toast.classList.remove("show"), 2400);
     }
 
-    // NO button: smooth move INSIDE its play area (cannot disappear, cannot cover yes)
+    // Love meter
+    const meter = document.getElementById("meter");
+    const yesBtn = document.getElementById("yesBtn");
+    yesBtn.addEventListener("mouseenter", () => meter.style.width = "100%");
+    yesBtn.addEventListener("mouseleave", () => meter.style.width = "42%");
+    // start at a cute baseline
+    meter.style.width = "42%";
+
+    // NO button: stays in its area, never disappears, and moves smoothly (small steps)
     const noBtn = document.getElementById("noBtn");
     const noArea = document.getElementById("noArea");
 
-    // current target position (so it "slides" not teleports)
     let targetX = 0, targetY = 0;
 
-    function setNewNoTarget(){
-      const padding = 6;
+    function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
+
+    function setNoTarget(step=52){
+      const padding = 8;
+      const areaW = noArea.clientWidth;
+      const areaH = noArea.clientHeight;
+      const w = noBtn.offsetWidth || 120;
+      const h = noBtn.offsetHeight || 48;
+
+      // maximum inside bounds
+      const maxX = Math.max(padding, areaW - w - padding);
+      const maxY = Math.max(padding, areaH - h - padding);
+
+      const dx = (Math.random() * 2 - 1) * step;
+      const dy = (Math.random() * 2 - 1) * step;
+
+      targetX = clamp(targetX + dx, padding, maxX);
+      targetY = clamp(targetY + dy, padding, maxY);
+
+      noBtn.style.transform = `translate(${targetX}px, ${targetY}px)`;
+    }
+
+    // Ensure the No button is always in view even if fonts load late / resize happens
+    function snapNoInside(){
+      const padding = 8;
       const areaW = noArea.clientWidth;
       const areaH = noArea.clientHeight;
       const w = noBtn.offsetWidth || 120;
@@ -462,32 +644,47 @@
       const maxX = Math.max(padding, areaW - w - padding);
       const maxY = Math.max(padding, areaH - h - padding);
 
-      // pick a spot not too far from current (so it feels like it "moves" not teleports)
-      const step = 55; // smaller = less jumpy
-      const dx = (Math.random() * 2 - 1) * step;
-      const dy = (Math.random() * 2 - 1) * step;
-
-      targetX = Math.min(maxX, Math.max(padding, targetX + dx));
-      targetY = Math.min(maxY, Math.max(padding, targetY + dy));
-
+      targetX = clamp(targetX, padding, maxX);
+      targetY = clamp(targetY, padding, maxY);
       noBtn.style.transform = `translate(${targetX}px, ${targetY}px)`;
     }
 
-    // start it in a nice spot
     window.addEventListener("load", () => {
-      targetX = Math.max(6, (noArea.clientWidth - (noBtn.offsetWidth || 120)) - 6);
-      targetY = 6;
-      noBtn.style.transform = `translate(${targetX}px, ${targetY}px)`;
+      // start in a nice top-right-ish spot inside the area
+      targetX = 12;
+      targetY = 10;
+      snapNoInside();
     });
 
-    noBtn.addEventListener("mouseenter", setNewNoTarget);
-    noBtn.addEventListener("mousemove", setNewNoTarget);
+    window.addEventListener("resize", snapNoInside);
+
+    // Dodge interactions
+    noBtn.addEventListener("mouseenter", () => setNoTarget(60));
+    noBtn.addEventListener("mousemove", () => setNoTarget(48));
     noBtn.addEventListener("click", () => {
       showToast("nice try 😭");
-      setNewNoTarget();
+      setNoTarget(70);
     });
 
-    // Confetti (canvas) — burst around YES button
+    // Card tilt (subtle, desktop only)
+    const cards = document.querySelectorAll(".card");
+    if (window.matchMedia("(hover:hover)").matches){
+      cards.forEach(card => {
+        card.addEventListener("mousemove", (e) => {
+          const r = card.getBoundingClientRect();
+          const px = (e.clientX - r.left) / r.width;
+          const py = (e.clientY - r.top) / r.height;
+          const tiltX = (py - 0.5) * -4; // -2..2ish
+          const tiltY = (px - 0.5) * 4;
+          card.style.transform = `translateY(-2px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+        });
+        card.addEventListener("mouseleave", () => {
+          card.style.transform = "translateY(0px)";
+        });
+      });
+    }
+
+    // Confetti (canvas) — burst AROUND the Yes button and also a little from it
     const canvas = document.getElementById("confetti");
     const ctx = canvas.getContext("2d");
 
@@ -502,42 +699,55 @@
     let confetti = [];
     let animating = false;
 
+    function spawnPiece(x, y, vx, vy, size, rot, vr, life, shape){
+      confetti.push({ x, y, vx, vy, size, rot, vr, life, shape });
+    }
+
     function popConfettiAroundYes(){
       confetti = [];
-      const yesRect = document.getElementById("yesBtn").getBoundingClientRect();
-
+      const yesRect = yesBtn.getBoundingClientRect();
       const cx = yesRect.left + yesRect.width / 2;
       const cy = yesRect.top + yesRect.height / 2;
 
-      const ringR = Math.max(26, Math.min(44, Math.max(yesRect.width, yesRect.height) * 0.55));
-      const count = 260;
+      const ringR = Math.max(28, Math.min(56, Math.max(yesRect.width, yesRect.height) * 0.75));
+      const count = 290;
 
       for(let i=0;i<count;i++){
         const ang = Math.random() * Math.PI * 2;
-        const r = ringR + Math.random() * 10;
+        const r = ringR + Math.random() * 12;
 
         const x = cx + Math.cos(ang) * r;
         const y = cy + Math.sin(ang) * r;
 
-        // outward velocity from the ring
-        const speed = 3 + Math.random() * 6;
-        const vx = Math.cos(ang) * speed + (Math.random()*1.2 - 0.6);
-        const vy = Math.sin(ang) * speed - (2 + Math.random()*2.5);
+        // outward velocity
+        const speed = 3.2 + Math.random() * 6.3;
+        const vx = Math.cos(ang) * speed + (Math.random()*1.1 - 0.55);
+        const vy = Math.sin(ang) * speed - (2.2 + Math.random()*2.8);
 
-        confetti.push({
-          x, y,
-          vx, vy,
-          size: (Math.random()*6 + 2),
-          rot: Math.random() * Math.PI * 2,
-          vr: (Math.random()*0.25 - 0.125),
-          life: 220 + Math.random()*90
-        });
+        const size = (Math.random()*6 + 2);
+        const rot = Math.random() * Math.PI * 2;
+        const vr = (Math.random()*0.28 - 0.14);
+        const life = 230 + Math.random()*100;
+
+        // mix squares + tiny hearts
+        const shape = (Math.random() < 0.18) ? "heart" : "square";
+        spawnPiece(x, y, vx, vy, size, rot, vr, life, shape);
       }
 
       if(!animating){
         animating = true;
         requestAnimationFrame(tickConfetti);
       }
+    }
+
+    function drawHeart(x, y, s){
+      // simple heart using bezier-ish path
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.bezierCurveTo(x - s, y - s, x - 2*s, y + s/3, x, y + 2*s);
+      ctx.bezierCurveTo(x + 2*s, y + s/3, x + s, y - s, x, y);
+      ctx.closePath();
+      ctx.fill();
     }
 
     function tickConfetti(){
@@ -554,13 +764,18 @@
         ctx.save();
         ctx.translate(p.x, p.y);
         ctx.rotate(p.rot);
-        ctx.globalAlpha = Math.max(p.life/280, 0);
+        ctx.globalAlpha = Math.max(p.life/320, 0);
         ctx.fillStyle = palette[(Math.random()*palette.length) | 0];
-        ctx.fillRect(-p.size, -p.size, p.size*2, p.size*2);
+
+        if (p.shape === "heart"){
+          drawHeart(0, 0, Math.max(2.5, p.size*0.85));
+        } else {
+          ctx.fillRect(-p.size, -p.size, p.size*2, p.size*2);
+        }
         ctx.restore();
       });
 
-      confetti = confetti.filter(p => p.life > 0 && p.y < window.innerHeight + 80);
+      confetti = confetti.filter(p => p.life > 0 && p.y < window.innerHeight + 90);
       if(confetti.length){
         requestAnimationFrame(tickConfetti);
       } else {
@@ -569,7 +784,8 @@
       }
     }
 
-    document.getElementById("yesBtn").addEventListener("click", () => {
+    // Actions
+    yesBtn.addEventListener("click", () => {
       popConfettiAroundYes();
       showToast("YAY I’m so happy");
       setTimeout(() => {
